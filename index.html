@@ -3,7 +3,6 @@
 <meta name=viewport content="width=device-width, initial-scale=1">
 <title>Cascading JS Variables</title>
 
-
 <style>
   * {
     box-sizing: border-box;
@@ -75,7 +74,7 @@
 
 <p>Cascading JS Variables let CSS authors include cascading variables in the stylesheets they write.</p>
 
-<p>What does it mean for a variable to 'cascade'? In this case it means variable assignments are inherited globally, but can be reassigned for individual elements and children of those elements differently. Another feature of cascading elements is their ability to change in value (responsively via CSS, or via JS) in different situations making them a very flexible tool for the expression of dynamic values with a straightforward notation inside CSS.</p>
+<p>What does it mean for a variable to 'cascade'? In this case it means variable assignments are inherited globally, but can be reassigned for individual elements and children of those elements differently. Another feature of cascading variables is their ability to change in value (responsively via CSS, or via JS) in different situations making them a very flexible tool for the expression of dynamic values with a straightforward notation inside CSS.</p>
 
 <h2>Variable Syntax</h2>
 
@@ -83,7 +82,7 @@
 
 <pre>var(--variable);</pre>
 
-<p>The syntax supported by this plugin for assigning and using a variable is the same as the syntax for native CSS variables. Each variable name is represented by a property name beginning with two hyphens: <code>--</code>. To reference the value of a variable inside CSS values, use the function <code>var()</code> with the name of the variable between the brackets.</p>
+<p>The syntax supported by this plugin for assigning and using a variable is the same as <a href=https://drafts.csswg.org/css-variables-1>the syntax for native CSS variables</a>. Each variable name is represented by a property name beginning with two hyphens: <code>--</code>. To reference the value of a variable inside CSS values, use the function <code>var()</code> with the name of the variable between the brackets.</p>
 
 <pre>data-variable="value"</pre>
 
@@ -126,6 +125,7 @@
 
 <ul>
   <li><strong>Website:</strong> <a href=https://github.com/tomhodgins/cascading-js-variables>https://github.com/tomhodgins/cascading-js-variables</a>
+  <li><strong>Demo:</strong> <a href=tests/demo.html>tests/demo.html</a>
   <li><strong>Author:</strong> Tommy Hodgins
   <li><strong>License:</strong> MIT
 </ul>

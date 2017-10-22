@@ -5,7 +5,7 @@
 
 Cascading JS Variables let CSS authors include cascading variables in the stylesheets they write.
 
-What does it mean for a variable to 'cascade'? In this case it means variable assignments are inherited globally, but can be reassigned for individual elements and children of those elements differently. Another feature of cascading elements is their ability to change in value (responsively via CSS, or via JS) in different situations making them a very flexible tool for the expression of dynamic values with a straightforward notation inside CSS.
+What does it mean for a variable to 'cascade'? In this case it means variable assignments are inherited globally, but can be reassigned for individual elements and children of those elements differently. Another feature of cascading variables is their ability to change in value (responsively via CSS, or via JS) in different situations making them a very flexible tool for the expression of dynamic values with a straightforward notation inside CSS.
 
 ### Variable Syntax
 

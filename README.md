@@ -1,9 +1,8 @@
 # Cascading JS Variables
-## version 0.0.1
 
 Cascading JS Variables let CSS authors include cascading variables in the stylesheets they write.
 
-What does it mean for a variable to 'cascade'? In this case it means variable assignments are inherited globally, but can be reassigned for individual elements and children of those elements differently. Another feature of cascading elements is their ability to change in value (responsively via CSS, or via JS) in different situations making them a very flexible tool for the expression of dynamic values with a straightforward notation inside CSS.
+What does it mean for a variable to 'cascade'? In this case it means variable assignments are inherited globally, but can be reassigned for individual elements and children of those elements differently. Another feature of cascading variables is their ability to change in value (responsively via CSS, or via JS) in different situations making them a very flexible tool for the expression of dynamic values with a straightforward notation inside CSS.
 
 ### Variable Syntax
 
@@ -15,7 +14,7 @@ What does it mean for a variable to 'cascade'? In this case it means variable as
 var(--variable);
 ```
 
-The syntax supported by this plugin for assigning and using a variable is the same as the syntax for native CSS variables. Each variable name is represented by a property name beginning with two hyphens: `--`. To reference the value of a variable inside CSS values, use the function `var()` with the name of the variable between the brackets.
+The syntax supported by this plugin for assigning and using a variable is the same as [the syntax for native CSS variables](https://drafts.csswg.org/css-variables-1). Each variable name is represented by a property name beginning with two hyphens: `--`. To reference the value of a variable inside CSS values, use the function `var()` with the name of the variable between the brackets.
 
 ```html
 data-variable="value"
@@ -69,6 +68,6 @@ cascadingVariables(':root', 'background: var(--example);')
 ### Info
 
 - Website: https://tomhodgins.github.io/cascading-js-variables
-- Demo: https://tomhodgins.github.io/cascading-js-variables/test/demo.html
+- Demo: https://tomhodgins.github.io/cascading-js-variables/tests/demo.html
 - Author: Tommy Hodgins
 - License: MIT
