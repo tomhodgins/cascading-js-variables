@@ -1,3 +1,5 @@
+/*
+
 # Cascading JS Variables
 ## version 0.0.1
 
@@ -7,19 +9,13 @@ What does it mean for a variable to 'cascade'? In this case it means variable as
 
 ### Variable Syntax
 
-```css
---variable: value;
-```
+    --variable: value;
 
-```css
-var(--variable);
-```
+    var(--variable);
 
 The syntax supported by this plugin for assigning and using a variable is the same as the syntax for native CSS variables. Each variable name is represented by a property name beginning with two hyphens: `--`. To reference the value of a variable inside CSS values, use the function `var()` with the name of the variable between the brackets.
 
-```html
-data-variable="value"
-```
+    data-variable="value"
 
 This plugin also allows HTML authors to assign cascading variables by defining a custom data attribute beginning with `data-` and followed by the variable name, with the desired variable value set as the value of the attribute in HMTL.
 
@@ -27,9 +23,7 @@ JavaScript authors are also able to use this custom attribute interface to more 
 
 ### Usage
 
-```javascript
-cascadingVariables(selector, rule)
-```
+    cascadingVariables(selector, rule)
 
 - `selector` is a CSS selector
 - `rule` is a semicolon-separated list of CSS property declarations
@@ -38,37 +32,83 @@ This plugin is a JavaScript function that accepts a CSS selector and properties,
 
 To set the variable `--example` to `green` we can accomplish that a few ways:
 
-```javascript
-cascadingVariables(':root', '--example: green;')
-```
+    cascadingVariables(':root', '--example: green;')
 
 This would have the effect of setting the following attribute on the HTML tag:
 
-```html
-data-example="green"
-```
+    data-example="green"
 
 Which could also be achieved in HTML by writing:
 
-```html
-<html data-example="green">
-```
+    <html data-example="green">
 
 Or added programmtically via JS at any point with something like:
 
-```javascript
-document.documentElement.setAttribute('data-example', 'green')
-```
+    document.documentElement.setAttribute('data-example', 'green')
 
 In any of these cases, whether assigned from CSS, HTML, or JavaScript, the plugin would be able to read a rule like this and use the value `green` for the variable:
 
-```javascript
-cascadingVariables(':root', 'background: var(--example);')
-```
+    cascadingVariables(':root', 'background: var(--example);')
 
 ### Info
 
-- Website: https://tomhodgins.github.io/cascading-js-variables
-- Demo: https://tomhodgins.github.io/cascading-js-variables/test/demo.html
+- Website: https://github.com/tomhodgins/cascading-js-variables
 - Author: Tommy Hodgins
 - License: MIT
+
+*/
+
+function cascadingVariables(selector, rule) {
+
+  var tag = document.querySelectorAll(selector)
+  var style = ''
+  var count = 0
+
+  for (var i=0; i<tag.length; i++) {
+
+    // Apply variables defined in supplied rule
+    rule.replace(/--(.+)\:(.+)[;}]*/gm, function(string, property, value) {
+
+      tag[i].setAttribute('data-' + property, value)
+
+    })
+
+    var attr = selector.replace(/\W+/g, '')
+    var newRule = rule.replace(/var\(--([^\)]+)\)/g, function(string, match) {
+
+      // Check if has data attribute on self
+      if (tag[i].getAttribute('data-' + match) !== null) {
+
+        return tag[i].getAttribute('data-' + match)
+
+      // Check if parent has data attribute
+      } else if (tag[i].closest('[data-' + match + ']') && tag[i].closest('[data-' + match + ']').getAttribute('data-' + match) !== null) {
+
+        return tag[i].closest('[data-' + match + ']').getAttribute('data-' + match)
+
+      // Otherwise return global value
+      } else {
+
+        if (match in window) {
+
+          return (new Function('return ' + match))() || ''
+
+        }
+
+      }
+
+    })
+
+    tag[i].setAttribute('data-variable-' + attr, count)
+
+    style += '\n[data-variable-' + attr + '="' + count + '"] {\n'
+             + '  ' + newRule + '\n'
+             + '}\n'
+
+    count++
+
+  }
+
+  return style
+
+}

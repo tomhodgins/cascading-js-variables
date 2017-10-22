@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>Cascading JS Variables</title>
+
+
+<style>
+  * {
+    box-sizing: border-box;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-kerning: auto;
+  }
+  html {
+    font-size: 12pt;
+    line-height: 1.4;
+    font-weight: 400;
+    font-family: sans-serif;
+  }
+  body {
+    padding: 1em;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  img[src*=svg] {
+    display: block;
+    max-width: 300px;
+    margin: 4em auto 2em;
+  }
+  code,
+  pre,
+  blockquote {
+    padding: .1em .3em;
+    background: rgba(0,0,0,.1);
+  }
+  code,
+  pre {
+    font-family: monospace;
+  }
+  pre {
+    margin: 2em 0;
+    padding: 1em;
+    white-space: pre-wrap;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin: 1em 0 .5em 0;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+  }
+  footer {
+    opacity: .4;
+    padding: 2em 0;
+    text-align: center;
+    transition: opacity .2s ease-in-out;
+  }
+  footer:hover {
+    opacity: 1;
+  }
+  p,
+  li {
+    font-size: 14pt;
+  }
+  @media (min-width: 600px) {
+    h1 { font-size: 300%; }
+    h2 { font-size: 200%; }
+    h3 { font-size: 160%; }
+    h4 { font-size: 140%; }
+    h5 { font-size: 120%; }
+    h6 { font-size: 110%; }
+  }
+</style>
+
+<h1>Cascading JS Variables</h1>
+
+<p>Cascading JS Variables let CSS authors include cascading variables in the stylesheets they write.</p>
+
+<p>What does it mean for a variable to 'cascade'? In this case it means variable assignments are inherited globally, but can be reassigned for individual elements and children of those elements differently. Another feature of cascading elements is their ability to change in value (responsively via CSS, or via JS) in different situations making them a very flexible tool for the expression of dynamic values with a straightforward notation inside CSS.</p>
+
+<h2>Variable Syntax</h2>
+
+<pre>--variable: value;</pre>
+
+<pre>var(--variable);</pre>
+
+<p>The syntax supported by this plugin for assigning and using a variable is the same as the syntax for native CSS variables. Each variable name is represented by a property name beginning with two hyphens: <code>--</code>. To reference the value of a variable inside CSS values, use the function <code>var()</code> with the name of the variable between the brackets.</p>
+
+<pre>data-variable="value"</pre>
+
+<p>This plugin also allows HTML authors to assign cascading variables by defining a custom data attribute beginning with <code>data-</code> and followed by the variable name, with the desired variable value set as the value of the attribute in HMTL.</p>
+
+<p>JavaScript authors are also able to use this custom attribute interface to more easily assign and reassign different values to elements in the DOM.</p>
+
+<h2>Usage</h2>
+
+<pre>cascadingVariables(selector, rule)</pre>
+
+<ul>
+  <li><code>selector</code> is a CSS selector
+  <li><code>rule</code> is a semicolon-separated list of CSS property declarations
+</ul>
+
+<p>This plugin is a JavaScript function that accepts a CSS selector and properties, including variable assignment and references. The plugin will find any elements in the DOM matching the given CSS selector, mark them with a unique attribute, and return CSS text with styles written targeting elements by these unique attributes.</p>
+
+<p>To set the variable <code>--example</code> to <code>green</code> we can accomplish that a few ways:</p>
+
+<pre>cascadingVariables(':root', '--example: green;')</pre>
+
+<p>This would have the effect of setting the following attribute on the HTML tag:</p>
+
+<pre>data-example="green"</pre>
+
+<p>Which could also be achieved in HTML by writing:</p>
+
+<pre>&lt;html data-example="green"></pre>
+
+<p>Or added programmtically via JS at any point with something like:</p>
+
+<pre>document.documentElement.setAttribute('data-example', 'green')</pre>
+
+<p>In any of these cases, whether assigned from CSS, HTML, or JavaScript, the plugin would be able to read a rule like this and use the value `green` for the variable:</p>
+
+<pre>cascadingVariables(':root', 'background: var(--example);')</pre>
+
+<h2>Info</h2>
+
+<ul>
+  <li><strong>Website:</strong> <a href=https://github.com/tomhodgins/cascading-js-variables>https://github.com/tomhodgins/cascading-js-variables</a>
+  <li><strong>Author:</strong> Tommy Hodgins
+  <li><strong>License:</strong> MIT
+</ul>
+
+<footer>Made with &hearts; by <a href=http://twitter.com/innovati>@innovati</a></footer>

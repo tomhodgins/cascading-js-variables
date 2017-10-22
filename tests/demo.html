@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>Test of Cascading JS Variables</title>
+
+<h1>Test of Cascading JS Variables</h1>
+
+<h2>Native CSS Variables</h2>
+<div class=css>I use a global CSS Variable <div class=css>child</div></div>
+<div class=css style="--cssVariable: blue;">I use my own variable <div class=css>child</div></div>
+
+<h2>Cascading JS Variables</h2>
+<div class=js>I use a global JS Variable <div class=js>child</div></div>
+<div class=js data-jsVariable="blue">I use my own variable in an attribute <div class=js>child</div></div>
+<div class="js target">I'm set from JS-in-CSS <div class=js>child</div></div>
+
+<style>
+  div {
+    margin: 1em;
+  }
+
+  :root {
+    --cssVariable: lime;
+  }
+  .css {
+    border: 1px solid;
+    padding: 1em;
+    background: var(--cssVariable);
+  }
+
+  ${cascadingVariables(':root', `
+    --jsVariable: lime;
+  `)}
+
+  ${cascadingVariables('.target', `
+    --jsVariable: purple;
+    width: var(--dontCatchMe);
+  `)}
+
+  ${cascadingVariables('.js', `
+    border: 1px solid;
+    padding: 1em;
+    background: var(--jsVariable);
+  `)}
+</style>
+
+<script>
+  // Interpolate JS inside <style> and <link> stylesheets with ${}
+  var JSinCSS = {}
+  JSinCSS.load = function() {
+    var style = document.getElementsByTagName('style')
+    for (i = 0; i < style.length; i++) {
+      JSinCSS.process(style[i], style[i].innerHTML)
+    }
+    var link = document.getElementsByTagName('link')
+    for (i = 0; i < link.length; i++) {
+      var currentLink = link[i]
+      if (currentLink.href && link.rel == 'stylesheet') {
+        (function() {
+          var xhr = new XMLHttpRequest
+          xhr.open('GET', currentLink.href, true)
+          xhr.send(null)
+          xhr.onreadystatechange = function() {
+            JSinCSS.process(currentLink, xhr.responseText)
+          }
+        })()
+      }
+    }
+  }
+  JSinCSS.process = function(tag, stylesheet) {
+    if (stylesheet) {
+      var event = ['load', 'resize', 'input', 'click']
+      var css = new Function('return `' + stylesheet + '`')
+      for (var j=0; j<event.length; j++) {
+        if (!tag.getAttribute('data-populated')) {
+          var style = document.createElement('style')
+          style.innerHTML = css()
+          tag.setAttribute('data-populated', true)
+          style.setAttribute('data-populated', true)
+          document.head.appendChild(style)
+        }
+        window.addEventListener(event[j], function(e) {
+          if (style) {
+            style.innerHTML = css()
+          }
+        })
+      }
+    }
+  }
+  window.addEventListener('load', JSinCSS.load)
+</script>
+
+<script src="../cascading-js-variables.js"></script>
