@@ -1,7 +1,7 @@
 /*
 
 # Cascading JS Variables
-## version 0.0.1
+## version 0.0.2
 
 Cascading JS Variables let CSS authors include cascading variables in the stylesheets they write.
 
@@ -67,7 +67,7 @@ function cascadingVariables(selector, rule) {
   for (var i=0; i<tag.length; i++) {
 
     // Apply variables defined in supplied rule
-    rule.replace(/--(.+)\:(.+)[;}]*/gm, function(string, property, value) {
+    rule.replace(/--([^;]+)\:(.+)[;}]*/gm, function(string, property, value) {
 
       tag[i].setAttribute('data-' + property, value)
 
